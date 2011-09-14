@@ -3,7 +3,7 @@
 # adapted from: http://rvm.beginrescueend.com/workflow/rvmrc/
 
 ruby_string="1.9.2"
-gemset_name="populator"
+gemset_name="mongo-populator"
 
 if rvm list strings | grep -q "${ruby_string}" ; then
 
