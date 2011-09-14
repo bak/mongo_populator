@@ -16,5 +16,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'mocha', '~> 0.10.0'
 
   s.rubyforge_project = s.name
-  s.required_rubygems_version = ">= 1.8.0"
 end
