@@ -15,7 +15,7 @@ This gem adds a "populate" method to a `Mongo::Collection`. Pass the number of d
 
     db = Mongo::Connection.new("localhost", 27017).db("test-db")    
     
-    article_collection = db.collection('article')
+    article_collection = db.collection('articles')
     article_collection.populate(100) do |article|
       article.title       = MongoPopulator.words(4..6).capitalize
       article.slug        = article.title.downcase.tr(' ','-')
@@ -26,7 +26,7 @@ This gem adds a "populate" method to a `Mongo::Collection`. Pass the number of d
 
 Unlike the original Populator, we are letting MongoDB set each ObjectId. This makes setting up relationships only slightly more laborious.
 
-    article_collection = db.collection('article')
+    article_collection = db.collection('articles')
     article_collection.populate(100) do |article|
       ...
     end
@@ -40,7 +40,7 @@ Unlike the original Populator, we are letting MongoDB set each ObjectId. This ma
       comment.article = article_ids
     end
 
-That will create an average of 10 comments for each article. Embedded documents are not yet supported.
+That will create an average of 10 related comments for each article. 
 
 Passing a range or array of values will randomly select one.
 
@@ -62,6 +62,11 @@ To persist arrays in your documents, use either #items to save a certain number 
     MongoPopulator.items(1..5, %w(ape bear cat dog elephant firefox)) # populates array with provided terms
     MongoPopulator.items(10..20) # populates array with random words
     MongoPopulator.array('red', 'green', 'blue') # saves `['red', 'green', 'blue']` exactly
+
+## TODO
+
+* Make MongoPopulator::Factory support conditional presence of an attribute
+* Support singular and multiple embedded documents
 
 ## Development
 
