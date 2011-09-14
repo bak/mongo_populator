@@ -1,3 +1,3 @@
-0.1.0 (September 14th, 2011)
+# 0.1.0 (September 14th, 2011)
 
 * initial release based on fork of http://github.com/ryanb/populator
