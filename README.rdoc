@@ -69,7 +69,7 @@ Problems or questions? Add an {issue on GitHub}[https://github.com/bak/populator
 
 == Special Thanks
 
-MongoPopulator is highly derivative of, and heavily reuses, the work of Ryan Bates {via Populator}[https://github.com/ryanb/populator/]---thanks, Ryan.
+MongoPopulator is highly derivative of, and heavily reuses, the work of Ryan Bates {via Populator}[https://github.com/ryanb/populator/]. Thanks, Ryan.
 
 == Special Thanks for the original Populator
 
