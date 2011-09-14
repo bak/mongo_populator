@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = "mongo_populator"
   s.version     = "0.1.1"
-  s.authors     = ["Benjamin Cullen-Kerney", "Ryan Bates"]
+  s.author      = "Benjamin Cullen-Kerney"
   s.email       = "ben.kerney -> gmail.com"
   s.homepage    = "http://github.com/bak/mongo_populator"
   s.summary     = "Mass populate MongoDB."
