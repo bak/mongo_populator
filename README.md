@@ -63,9 +63,22 @@ To persist arrays in your documents, use either #items to save a certain number 
     MongoPopulator.items(10..20) # populates array with random words
     MongoPopulator.array('red', 'green', 'blue') # saves `['red', 'green', 'blue']` exactly
 
+Setting an attribute to nil prevents that attribute being set. 
+
+    ...
+    address.state = nil if address.country != "United States"
+    ...
+
+So, to support conditional setting of an attribute, pass it an array with one or more nils as elements.
+
+    ...
+    user.creds = ['M.D.', 'J.D.', 'N.D.', nil, nil]  
+    ...
+
+~40% of users will not have credentials.
+
 ## TODO
 
-* Make MongoPopulator::Factory support conditional presence of an attribute
 * Support singular and multiple embedded documents
 
 ## Development

@@ -21,6 +21,13 @@ describe MongoPopulator::CollectionAdditions do
     @collection.distinct('name').last.should == "foo"
   end
 
+  it "should not set an attribute if passed nil" do
+    @collection.populate(1) do |record|
+      record.monkey = nil
+    end
+    @collection.distinct('monkey').should be_empty
+  end
+
   after(:each) do
     @collection.drop
   end
