@@ -24,6 +24,8 @@ This gem adds a "populate" method to a `Mongo::Collection`. Pass the number of d
       article.body        = MongoPopulator.paragraphs(5..7)
     end
 
+### Relationships
+
 Unlike the original Populator, we are letting MongoDB set each ObjectId. This makes setting up relationships only slightly more laborious.
 
     article_collection = db.collection('articles')
@@ -42,11 +44,17 @@ Unlike the original Populator, we are letting MongoDB set each ObjectId. This ma
 
 That will create an average of 10 related comments for each article. 
 
+### Shuffle through set of values
+
 Passing a range or array of values will randomly select one.
 
+    ...
     person.gender = ['male', 'female']
+    ...
 
 This will create 1000 to 5000 men or women with the annual income between 10,000 and 200,000.
+
+### Fake values
 
 If you need to generate fake data, there are a few methods to do this.
 
@@ -56,6 +64,8 @@ If you need to generate fake data, there are a few methods to do this.
     MongoPopulator.paragraphs(3) # generates 3 paragraphs
 
 For fancier data generation, try the [Faker gem](http://faker.rubyforge.org).
+
+### JSON-specific structures
 
 To persist arrays in your documents, use either #items to save a certain number of items randomly selected from a set, or #array to save a specific array.
 
