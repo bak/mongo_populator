@@ -1,4 +1,8 @@
-# 0.1.1 (September 15th, 2011)
+# 0.2.0 (September 14th, 2011)
+
+* an attribute set to nil (directly or randomly via an array) will not appear in the resulting document.
+
+# 0.1.1 (September 14th, 2011)
 
 * remove required minimum RubyGems version
 
