@@ -46,4 +46,31 @@ describe MongoPopulator::Random do
   it "should generate 3 random paragraphs" do
     MongoPopulator.paragraphs(3).split(/\n\n/).should have(3).records
   end
+
+  it "should generate an array of requested size from set" do
+    MongoPopulator.items(5..7, %w(a b c d e f g h i j k)).should have_at_least(5).records
+  end
+
+  it "should generate a unique array" do 
+    res = [ ]
+    100.times do # we can be reasonably certain...
+      set = MongoPopulator.items(3, %w(a b c d)) 
+      res << (set == set.uniq)
+    end
+    res.should_not include(false)
+  end
+
+  context "when the set is not large enough to accomodate a uniq array of the size requested" do
+    before do
+      @set = MongoPopulator.items(4..5, %w(a b c))
+    end 
+    
+    it "should generate a smaller array than asked for" do
+      @set.size.should == 3
+    end
+    
+    it "should still be unique" do
+      @set.should include("a","b","c")
+    end
+  end
 end

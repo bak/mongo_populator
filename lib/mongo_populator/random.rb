@@ -39,10 +39,22 @@ module MongoPopulator
         
     # Generate a given number of items, or for a range, generate a random number of
     # items within that range, using values in array, or random words. Returns MongoArray.
+    # Resulting items should be a unique set, therefore if minimum number requested exceeds 
+    # number of items available, provide fewer items.
     def items(total, arr=nil)
+      
+      # limit returned size to arr size if arr is not large enough
+      min = total.is_a?(Range) ? total.first : total
+      if arr
+        total = (min <= arr.size) ? total : arr.size
+      end
+
       out = MongoArray.new
-      (1..interpret_value(total)).map do
+      target = interpret_value(total)
+      until out.size == target do
+      # (1..interpret_value(total)).map do
         out << (arr ? arr[rand(arr.size)] : words(1))
+        out.uniq!
       end
       return out
     end
