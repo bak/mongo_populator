@@ -1,3 +1,7 @@
+# 0.2.1 (September 14th, 2011)
+
+* MongoArrays are now guaranteed unique
+
 # 0.2.0 (September 14th, 2011)
 
 * an attribute set to nil (directly or randomly via an array) will not appear in the resulting document.
