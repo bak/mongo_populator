@@ -31,6 +31,24 @@ describe MongoPopulator::Record do
     record.stock.should == 15
   end
 
+  it "should persist a dictionary as-is" do
+    record = MongoPopulator::Record.new(@collection)
+    record.info = MongoPopulator.dictionary(:name => "mongo", :type => "db")
+    record.info[:name].should == "mongo"
+  end
+
+  it "should persist an array as-is" do
+    record = MongoPopulator::Record.new(@collection)
+    record.info = MongoPopulator.array("mongo", "db")
+    record.info.should == ["mongo","db"]
+  end
+
+  it "should persist an array of dictionaries" do
+    record = MongoPopulator::Record.new(@collection)
+    record.info = MongoPopulator.array({:name => "mongo", :type => "db"}, {:name => "fluffy", :type => "kitty"})
+    record.info[0][:type].should == "db"
+  end
+
   after(:each) do
     @collection.drop
   end

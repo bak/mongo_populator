@@ -73,7 +73,15 @@ To persist arrays in your documents, use either #items to save a certain number 
     MongoPopulator.items(10..20) # populates array with random words
     MongoPopulator.array('red', 'green', 'blue') # saves `['red', 'green', 'blue']` exactly
 
-Setting an attribute to nil prevents that attribute being set. 
+To persist a static dictionary to your document, use #dictionary.
+
+    MongoPopulator.dictionary(:name => "Mongo", :type => "db")
+
+To persist an array of static dictionaries, pass them to #array.
+    
+    MongoPopulator.array({:name => "mongo", :type => "db"}, {:name => "fluffy", :type => "kitty"})
+
+Setting an attribute to nil prevents that attribute being set. This is useful when you only want a field to appear in *some* documents
 
     ...
     address.state = nil if address.country != "United States"

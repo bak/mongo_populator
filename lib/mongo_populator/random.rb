@@ -64,6 +64,13 @@ module MongoPopulator
       MongoArray.new(values)
     end
 
+    # Simply pass the values back out as a MongoDictionary
+    def dictionary(values)
+      md = MongoDictionary.new()
+      values.each {|k,v| md[k]=v}
+      md
+    end
+    
     # If an array or range is passed, a random value will be selected to match.
     # All other values are simply returned.
     def interpret_value(value)
