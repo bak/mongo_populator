@@ -1,6 +1,6 @@
 # MongoPopulator
 
-MongoPopulator populates a MongoDB database with placeholder data. It is built upon [Populator](https://github.com/ryanb/populator) by Ryan Bates, but it works with the `mongo` gem in standalone scripts, and therefore is not tied to any particular framework.
+MongoPopulator populates a MongoDB database with placeholder data. It is built upon [Populator](https://github.com/ryanb/populator) by Ryan Bates, but it works with the [official Mongo gem](http://api.mongodb.org/ruby/current/file.TUTORIAL.html) in standalone scripts, and therefore is not tied to any particular framework.
 
 ## Installation
 
@@ -8,7 +8,7 @@ MongoPopulator populates a MongoDB database with placeholder data. It is built u
 
 ## Usage
 
-This gem adds a `#populate` method to a `Mongo::Collection`. Pass the number of documents you want to create along with a block. In the block you can set the field values for each document.
+This gem adds a `#populate` method to Mongo's `Mongo::Collection` class. Pass the number of documents you want to create along with a block. In the block you can set the field values for each document.
 
     require 'rubygems'
     require 'mongo_populator'
