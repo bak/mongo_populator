@@ -43,12 +43,6 @@ describe MongoPopulator::Record do
     record.info.should == ["mongo","db"]
   end
 
-  it "should persist an array of dictionaries" do
-    record = MongoPopulator::Record.new(@collection)
-    record.info = MongoPopulator.array({:name => "mongo", :type => "db"}, {:name => "fluffy", :type => "kitty"})
-    record.info[0][:type].should == "db"
-  end
-
   after(:each) do
     @collection.drop
   end
