@@ -32,8 +32,7 @@ describe MongoPopulator::CollectionAdditions do
     @collection.populate(1) do |record|
       record.monkey = nil
     end
-    @collection.find().each {|r| p r}# .count.should have(1).item
-    # @collection.distinct('monkey').should_not be_empty
+    @collection.distinct('monkey').should_not be_empty
   end
 
   # TODO: there is a chance that this will legitimately fail (if 1 is always picked).
