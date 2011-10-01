@@ -51,6 +51,10 @@ describe MongoPopulator::Random do
     MongoPopulator.items(5..7, %w(a b c d e f g h i j k)).should have_at_least(5).records
   end
 
+  it "should generate an array of requested size without a set" do
+    MongoPopulator.items(5..7).should have_at_least(5).records
+  end
+
   it "should raise an error if trying to skip within #items" do
     lambda { MongoPopulator.items(2, ['money','cash',MongoPopulator.skip]) }.should raise_error(StandardError)
   end

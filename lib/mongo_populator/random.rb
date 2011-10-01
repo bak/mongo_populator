@@ -42,7 +42,7 @@ module MongoPopulator
     # Resulting items should be a unique set, therefore if minimum number requested exceeds 
     # number of items available, provide fewer items.
     def items(total, arr=nil)
-      if arr.map {|e| e.class}.include?(MongoSkip)
+      if arr && arr.map{|e| e.class}.include?(MongoSkip)
         raise StandardError, "#skip method is not permitted in the #items array argument"
       end
 
