@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "mongo_populator"
-  s.version     = "1.0.0"
+  s.version     = "1.0.1"
   s.author      = "Benjamin Cullen-Kerney"
   s.email       = "ben.kerney -> gmail.com"
   s.homepage    = "http://github.com/bak/mongo_populator"

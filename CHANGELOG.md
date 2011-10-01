@@ -1,3 +1,7 @@
+# 1.0.1 (September 30th, 2011)
+
+* Fixed bug where using #items without an array in parameters caused error.
+
 # 1.0.0 (September 30th, 2011)
 
 * Embedded documents. There is a known issue that generated data (e.g. MongoPopulator.words()) is only generated once per set of embedded documents.
