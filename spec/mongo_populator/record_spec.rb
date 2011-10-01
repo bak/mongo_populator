@@ -37,10 +37,18 @@ describe MongoPopulator::Record do
     record.info[:name].should == "mongo"
   end
 
+  it "should raise an error if trying to skip within #dictionary" do
+    lambda { MongoPopulator.dictionary(:name => "mongo", :type => MongoPopulator.skip) }.should raise_error(StandardError)
+  end
+
   it "should persist an array as-is" do
     record = MongoPopulator::Record.new(@collection)
     record.info = MongoPopulator.array("mongo", "db")
     record.info.should == ["mongo","db"]
+  end
+
+  it "should raise an error if trying to skip within #array" do
+    lambda { MongoPopulator.array("mongo", MongoPopulator.skip) }.should raise_error(StandardError)
   end
 
   after(:each) do

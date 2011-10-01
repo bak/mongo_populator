@@ -42,7 +42,10 @@ module MongoPopulator
     # Resulting items should be a unique set, therefore if minimum number requested exceeds 
     # number of items available, provide fewer items.
     def items(total, arr=nil)
-      
+      if arr.map {|e| e.class}.include?(MongoSkip)
+        raise StandardError, "#skip method is not permitted in the #items array argument"
+      end
+
       # limit returned size to arr size if arr is not large enough
       min = total.is_a?(Range) ? total.first : total
       if arr
@@ -60,14 +63,28 @@ module MongoPopulator
 
     # Simply pass the values back out as a MongoArray
     def array(*values)
+      if values.map {|e| e.class}.include?(MongoSkip)
+        raise StandardError, "#skip method is not a permitted argument to #array"
+      end
       MongoArray.new(values)
     end
 
     # Simply pass the values back out as a MongoDictionary
-    def dictionary(values)
+    def dictionary(dict)
+      if dict.values.map {|e| e.class}.include?(MongoSkip)
+        raise StandardError, "#skip method is not a permitted value in #dictionary"
+      end
       md = MongoDictionary.new()
-      values.each {|k,v| md[k]=v}
+      dict.each {|k,v| md[k]=v}
       md
+    end
+
+    # Because the mongo gem sets NULL for a value of `nil` instead of skipping the field 
+    # altogether, we need a way to suppress a field from a doc so we don't surprise anyone.
+    # See #build_records in factory.rb for how this is done in parent documents, and 
+    # #embed in this file for how it is done in embedded documents.
+    def skip()
+      MongoSkip.new
     end
 
     # Create n embedded documents from a template hash
@@ -77,7 +94,7 @@ module MongoPopulator
         md = MongoDictionary.new
         template.each_pair { |k,v|
           iv = interpret_value(v)
-          md[k] = iv unless iv.nil? # catch nil values, do not save that field
+          md[k] = iv unless iv.is_a?(MongoSkip)
         }
         out << md
       end

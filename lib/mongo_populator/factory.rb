@@ -50,7 +50,7 @@ module MongoPopulator
         # index = last_id_in_database + @records.size + 1
         record = Record.new(@collection)
         block.call(record) if block
-        @records << record.attributes
+        @records << record.attributes.delete_if {|k,v| v.is_a?(MongoSkip) }
         save_records 
       end
     end

@@ -11,7 +11,7 @@ module MongoPopulator
     def attributes=(values_hash)
       values_hash.each_pair do |key, value|
         value = value.call if value.is_a?(Proc)
-        self.send((key.to_s + "=").to_sym, value)
+        self.send((key.to_s + "=").to_sym, value) 
       end
     end
 
@@ -21,9 +21,7 @@ module MongoPopulator
       name = sym.to_s
       if name.include?('=')
         rtn = MongoPopulator.interpret_value(args.first)
-        unless rtn.nil?
-          @attributes[name.sub('=', '').to_sym] = rtn
-        end
+        @attributes[name.sub('=', '').to_sym] = rtn
       else
         @attributes[sym]
       end

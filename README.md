@@ -67,40 +67,54 @@ For fancier data generation, try the [Faker gem](http://faker.rubyforge.org).
 
 ### Mongo-specific values
 
+Setting an attribute with the `#skip` method prevents that attribute being set. This is useful when you only want a field to appear in *some* documents
+
+    ...
+    address.state = MongoPopulator.skip if address.country != "United States"
+    ...
+
+So, to support conditional setting of an attribute, pass it an array with one or more MongoPopulator.skip as elements.
+
+    ...
+    user.creds = ['M.D.', 'J.D.', 'N.D.', MongoPopulator.skip, MongoPopulator.skip]  
+    ...
+
+~40% of users will not have the "cred" field.
+
+If you actually want a field in your document to be set to NULL, pass `nil` as the value.
+
+   ...
+   user.style = nil # 'style' key will not be in resulting document
+   ...
+
 To persist arrays in your documents, use either `#items` to save a certain number of items randomly selected from a set, or `#array` to save a specific array.
 
     MongoPopulator.items(1..5, %w(ape bear cat dog elephant firefox)) # populates array with provided terms
     MongoPopulator.items(10..20) # populates array with random words
     MongoPopulator.array('red', 'green', 'blue') # saves `['red', 'green', 'blue']` exactly
 
+Note that you cannot pass `#skip` in `#items`, `#dictionary`, or `#array`. Doing so will result in an error.
+
+    user.fruit = MongoPopulator.items(3, ['apple', 'banana', 'kiwi', MongoPopulator.skip]) #=> Error
+
 To persist a static dictionary to your document, use `#dictionary`.
 
     MongoPopulator.dictionary(:name => "Mongo", :type => "db")
 
-Setting an attribute to `nil` prevents that attribute being set. This is useful when you only want a field to appear in *some* documents
-
-    ...
-    address.state = nil if address.country != "United States"
-    ...
-
-So, to support conditional setting of an attribute, pass it an array with one or more nils as elements.
-
-    ...
-    user.creds = ['M.D.', 'J.D.', 'N.D.', nil, nil]  
-    ...
-
-~40% of users will not have credentials.
-
 #### Embedded Documents
 
-To embed documents, use `#embed`. It takes a dictionary template, which accepts any of the Populator constructs.
+To embed documents, use `#embed`. It takes a dictionary template, which accepts any of the Populator constructs. See note below in "Known Issues."
 
     @collection.populate(1) do |parent|
       parent.name = "Bunny Sr."
-      parent.kids = MongoPopulator.embed(10..20, {:name => ["Bunny Jr.","Fluffy","Other Fluffy"], :age => (1..20), :tattoos => ["butterfly", "banjo frog", nil]})
+      parent.kids = MongoPopulator.embed(10..20, {:name => ["Bunny Jr.","Fluffy","Other Fluffy"], :age => (1..20), :tattoos => ["butterfly", "banjo frog", MongoPopulator.skip]})
     end
 
 The above code generates a record with 10 to 20 embedded documents, roughly one-third of which have a 'tattoo' field.
+
+## Known issues
+
+* Data generation methods like `#words` or Faker methods will not return varying data within a set when used in embedded document templates. Instead a random value will be picked the first time, and used for the entire set.
 
 ## Development
 
