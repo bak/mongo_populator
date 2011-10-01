@@ -1,6 +1,6 @@
 # MongoPopulator
 
-`mongo_populator` populates a MongoDB database with placeholder data. It is built upon [`populator`](https://github.com/ryanb/populator) by Ryan Bates, but it works with the `mongo` gem in standalone scripts, and is not tied to any particular framework.
+MongoPopulator populates a MongoDB database with placeholder data. It is built upon [Populator](https://github.com/ryanb/populator) by Ryan Bates, but it works with the `mongo` gem in standalone scripts, and therefore is not tied to any particular framework.
 
 ## Installation
 
@@ -8,7 +8,7 @@
 
 ## Usage
 
-This gem adds a "populate" method to a `Mongo::Collection`. Pass the number of documents you want to create along with a block. In the block you can set the field values for each document.
+This gem adds a `#populate` method to a `Mongo::Collection`. Pass the number of documents you want to create along with a block. In the block you can set the field values for each document.
 
     require 'rubygems'
     require 'mongo_populator'
@@ -67,25 +67,17 @@ For fancier data generation, try the [Faker gem](http://faker.rubyforge.org).
 
 ### Mongo-specific values
 
-To embed documents, use #embed. It takes a dictionary template, which accepts normal Populator values.
-
-    # generates a record with 10 to 20 embedded documents, roughly one-third of which have a 'tattoo' field.
-    @collection.populate(1) do |parent|
-      parent.name = "Bunny Sr."
-      parent.kids = MongoPopulator.embed(10..20, {:name => ["Bunny Jr.","Fluffy","Other Fluffy"], :age => (1..20), :tattoos => ["butterfly", "banjo frog", nil]})
-    end
-
-To persist arrays in your documents, use either #items to save a certain number of items randomly selected from a set, or #array to save a specific array.
+To persist arrays in your documents, use either `#items` to save a certain number of items randomly selected from a set, or `#array` to save a specific array.
 
     MongoPopulator.items(1..5, %w(ape bear cat dog elephant firefox)) # populates array with provided terms
     MongoPopulator.items(10..20) # populates array with random words
     MongoPopulator.array('red', 'green', 'blue') # saves `['red', 'green', 'blue']` exactly
 
-To persist a static dictionary to your document, use #dictionary.
+To persist a static dictionary to your document, use `#dictionary`.
 
     MongoPopulator.dictionary(:name => "Mongo", :type => "db")
 
-Setting an attribute to nil prevents that attribute being set. This is useful when you only want a field to appear in *some* documents
+Setting an attribute to `nil` prevents that attribute being set. This is useful when you only want a field to appear in *some* documents
 
     ...
     address.state = nil if address.country != "United States"
@@ -99,9 +91,16 @@ So, to support conditional setting of an attribute, pass it an array with one or
 
 ~40% of users will not have credentials.
 
-## TODO
+#### Embedded Documents
 
-* Support singular and multiple embedded documents
+To embed documents, use `#embed`. It takes a dictionary template, which accepts any of the Populator constructs.
+
+    @collection.populate(1) do |parent|
+      parent.name = "Bunny Sr."
+      parent.kids = MongoPopulator.embed(10..20, {:name => ["Bunny Jr.","Fluffy","Other Fluffy"], :age => (1..20), :tattoos => ["butterfly", "banjo frog", nil]})
+    end
+
+The above code generates a record with 10 to 20 embedded documents, roughly one-third of which have a 'tattoo' field.
 
 ## Development
 
@@ -109,8 +108,4 @@ Problems or questions? Add an [issue on GitHub](https://github.com/bak/mongo_pop
 
 ## Special Thanks
 
-MongoPopulator is highly derivative of, and heavily reuses, the work of Ryan Bates [via Populator](https://github.com/ryanb/populator/). Thanks, Ryan.
-
-## Special Thanks for the original Populator
-
-Special thanks to Zach Dennis for his ar-extensions gem which some of this code is based on. Also many thanks to the [contributors](https://github.com/ryanb/populator/contributors). See the [CHANGELOG](https://github.com/ryanb/populator/blob/master/CHANGELOG.rdoc) for the full list.
+MongoPopulator is built upon the work of Ryan Bates [via Populator](https://github.com/ryanb/populator/). Thanks, Ryan.
