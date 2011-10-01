@@ -19,8 +19,11 @@ module MongoPopulator
 
     def method_missing(sym, *args, &block)
       name = sym.to_s
-      if name.include?('=') && args.first
-        @attributes[name.sub('=', '').to_sym] = MongoPopulator.interpret_value(args.first)
+      if name.include?('=')
+        rtn = MongoPopulator.interpret_value(args.first)
+        if rtn
+          @attributes[name.sub('=', '').to_sym] = rtn
+        end
       else
         @attributes[sym]
       end

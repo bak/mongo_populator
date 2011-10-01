@@ -52,11 +52,10 @@ module MongoPopulator
       out = MongoArray.new
       target = interpret_value(total)
       until out.size == target do
-      # (1..interpret_value(total)).map do
         out << (arr ? arr[rand(arr.size)] : words(1))
         out.uniq!
       end
-      return out
+      out
     end
 
     # Simply pass the values back out as a MongoArray
@@ -69,6 +68,19 @@ module MongoPopulator
       md = MongoDictionary.new()
       values.each {|k,v| md[k]=v}
       md
+    end
+
+    # Create n embedded documents from a template hash
+    def embed(total, template)
+      out = MongoArray.new
+      (1..interpret_value(total)).map do
+        md = MongoDictionary.new
+        template.each_pair { |k,v|
+          md[k] = interpret_value(v)
+        }
+        out << md
+      end
+      out
     end
     
     # If an array or range is passed, a random value will be selected to match.
