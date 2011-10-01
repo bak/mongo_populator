@@ -65,7 +65,15 @@ If you need to generate fake data, there are a few methods to do this.
 
 For fancier data generation, try the [Faker gem](http://faker.rubyforge.org).
 
-### JSON-specific structures
+### Mongo-specific values
+
+To embed documents, use #embed. It takes a dictionary template, which accepts normal Populator values.
+
+    # generates a record with 10 to 20 embedded documents, roughly one-third of which have a 'tattoo' field.
+    @collection.populate(1) do |parent|
+      parent.name = "Bunny Sr."
+      parent.kids = MongoPopulator.embed(10..20, {:name => ["Bunny Jr.","Fluffy","Other Fluffy"], :age => (1..20), :tattoos => ["butterfly", "banjo frog", nil]})
+    end
 
 To persist arrays in your documents, use either #items to save a certain number of items randomly selected from a set, or #array to save a specific array.
 
