@@ -76,7 +76,8 @@ module MongoPopulator
       (1..interpret_value(total)).map do
         md = MongoDictionary.new
         template.each_pair { |k,v|
-          md[k] = interpret_value(v)
+          iv = interpret_value(v)
+          md[k] = iv unless iv.nil? # catch nil values, do not save that field
         }
         out << md
       end

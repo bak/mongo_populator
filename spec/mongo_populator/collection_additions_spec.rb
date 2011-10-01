@@ -33,7 +33,7 @@ describe MongoPopulator::CollectionAdditions do
     @collection.populate(10) do |record|
       record.monkey = [1, nil]
     end
-    count = 0; @collection.find().collect {|r| count += 1 if r['monkey']}
+    count = 0; @collection.find().collect {|r| count += 1 if r.keys.include?('monkey')}
     count.should <= 9
   end
 
@@ -41,15 +41,19 @@ describe MongoPopulator::CollectionAdditions do
     before do
       @collection.populate(1) do |parent|
         parent.name = "Abraham"
-        parent.kids = MongoPopulator.embed(10..30, {:name => ["River","Willow","Swan"], :age => (1..20), :tattoos => ["butterfly", nil]})
+        parent.kids = MongoPopulator.embed(30, {:name => ["River","Willow","Swan"], :age => (1..20), :tattoos => ["butterfly", nil]})
       end
     end
 
     it "should generate within the value provided" do
-      @collection.find_one()['kids'].should have_at_least(10).items
+      @collection.find_one()['kids'].should have(30).items
     end
 
-    it "should follow the normal rules of population in evaluating the template"
+    it "should not set a field when value is nil" do
+      # above, tattoos is set to nil approx 50% of the time
+      count = 0; @collection.find_one()['kids'].collect {|r| count += 1 if r.keys.include?('tattoos')}
+      count.should <= 29
+    end
   end
 
   after(:each) do

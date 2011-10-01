@@ -21,7 +21,7 @@ module MongoPopulator
       name = sym.to_s
       if name.include?('=')
         rtn = MongoPopulator.interpret_value(args.first)
-        if rtn
+        unless rtn.nil?
           @attributes[name.sub('=', '').to_sym] = rtn
         end
       else
