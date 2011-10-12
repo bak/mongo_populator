@@ -1,6 +1,6 @@
 # MongoPopulator
 
-MongoPopulator populates a MongoDB database with placeholder data. It is built upon [Populator](https://github.com/ryanb/populator) by Ryan Bates, but it works with the [official Mongo gem](http://api.mongodb.org/ruby/current/file.TUTORIAL.html) in standalone scripts, and therefore is not tied to any particular framework.
+MongoPopulator populates a MongoDB database with placeholder data. It is based on [Populator](https://github.com/ryanb/populator) by Ryan Bates, but it works with the [official Mongo gem](http://api.mongodb.org/ruby/current/file.TUTORIAL.html) in standalone scripts, and therefore is not tied to any particular framework.
 
 ## Installation
 
@@ -122,4 +122,4 @@ Problems or questions? Add an [issue on GitHub](https://github.com/bak/mongo_pop
 
 ## Special Thanks
 
-MongoPopulator is built upon the work of Ryan Bates [via Populator](https://github.com/ryanb/populator/). Thanks, Ryan.
+MongoPopulator is based on the work of Ryan Bates [via Populator](https://github.com/ryanb/populator/). Thanks, Ryan.
