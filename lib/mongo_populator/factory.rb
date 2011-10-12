@@ -47,7 +47,6 @@ module MongoPopulator
     # :per_query limit option is reached.
     def build_records(amount, &block)
       amount.times do
-        # index = last_id_in_database + @records.size + 1
         record = Record.new(@collection)
         block.call(record) if block
         @records << record.attributes.delete_if {|k,v| v.is_a?(MongoSkip) }
@@ -60,14 +59,8 @@ module MongoPopulator
       @records.each do |record|
         @collection.insert(record)
       end
-      # @last_id_in_database = @records.last[:_id]
       @records.clear
     end
 
-    private
-
-    # def last_id_in_database
-    #   @last_id_in_database ||= @collection.distinct('_id').last
-    # end
   end
 end
