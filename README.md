@@ -84,7 +84,7 @@ So, to support conditional setting of an attribute, pass it an array with one or
 If you actually want a field in your document to be set to NULL, pass `nil` as the value.
 
    ...
-   user.style = nil # 'style' key will not be in resulting document
+   user.style = nil
    ...
 
 To persist arrays in your documents, use either `#items` to save a certain number of items randomly selected from a set, or `#array` to save a specific array.
