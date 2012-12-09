@@ -49,7 +49,7 @@ That will create an average of 10 related comments for each article.
 Passing a range or array of values will randomly select one.
 
     ...
-    person.gender = ['male', 'female']
+    californian.zone_preference = ['northern', 'southern'] # you must choose one.
     ...
 
 This will create 1000 to 5000 men or women with the annual income between 10,000 and 200,000.
